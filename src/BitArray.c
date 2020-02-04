@@ -8,54 +8,74 @@
 #   include <assert.h>
 #endif
 
-struct BitArray{
+struct BitArray {
     size_t length_in_bits;
     uint8_t data[];
 };
 
-BitArray* bitarray_new(size_t length) {
+// Returns a byte where every bit except the one at bit_idx is unset.
+// Does not check wether bit_idx is in the interval [0, 8).
+// Index starts from the left.
+// byte_set_at(2) = b00000100
+static inline uint8_t byte_set_at(size_t const bit_idx) {
+    return UINT8_C(1) << bit_idx;
+}
+
+static inline size_t bitarray_capacity_in_bytes(BitArray const* const ba) {
+    return 1 + (ba->length_in_bits - 1) / 8;
+}
+
+// Returns a pointer to the byte following the last byte of the bitarray.
+static inline uint8_t const* bitarray_end(BitArray const* const ba) {
+    return ba->data + bitarray_capacity_in_bytes(ba);
+}
+
+BitArray* bitarray_new(size_t const length) {
 #   ifdef BIT_ARRAY_ASSERTS
     assert(length);
 #   endif
 
-    BitArray* const hopefully_not_null =
-        calloc(1, sizeof(BitArray) + 1 + (length - 1) / 8);
-    
+    BitArray* const ba = calloc(
+        1,
+        sizeof(BitArray) +
+            1 + (length - 1) / 8  // converting bits to bytes
+    );
+
 #   ifdef BIT_ARRAY_ASSERTS
-    assert(hopefully_not_null);
+    assert(ba);
 #   endif
 
-    if (hopefully_not_null) {
-        hopefully_not_null->length_in_bits = length;
+    if (ba) {
+        ba->length_in_bits = length;
     }
 
-    return hopefully_not_null;
+    return ba;
 }
 
-void bitarray_delete(BitArray* bitarray_ptr) {
-    free(bitarray_ptr);
+void bitarray_delete(BitArray* const ba) {
+    free(ba);
 }
 
-bool bitarray_check(BitArray const* bitarray_ptr, size_t bit_idx) {
+bool bitarray_check(BitArray const* const ba, size_t const bit_idx) {
 #   ifdef BIT_ARRAY_ASSERTS
-    assert(bit_idx < bitarray_ptr->length_in_bits);
+    assert(bit_idx < ba->length_in_bits);
 #   endif
 
-    return bitarray_ptr->data[bit_idx / 8] & (1U << (bit_idx % 8));
+    return ba->data[bit_idx / 8] & byte_set_at(bit_idx % 8);
 }
 
-bool bitarray_all(BitArray const* bitarray_ptr) {
+bool bitarray_all(BitArray const* const ba) {
     uint8_t const* const last_elem_it =
-        bitarray_ptr->data + ((bitarray_ptr->length_in_bits - 1) / 8);
+        ba->data + ((ba->length_in_bits - 1) / 8);
 
     // check the array byte by byte, excluding the last byte.
-    for (uint8_t const* it = bitarray_ptr->data; it != last_elem_it; ++it) {
+    for (uint8_t const* it = ba->data; it != last_elem_it; ++it) {
         if (*it != 0xFF) {
             return false;
         }
     }
 
-    size_t const loose_bits_count = bitarray_ptr->length_in_bits % 8;
+    size_t const loose_bits_count = ba->length_in_bits % 8;
 
     if (loose_bits_count == 0) {
         return *last_elem_it == 0xFF;
@@ -64,7 +84,7 @@ bool bitarray_all(BitArray const* bitarray_ptr) {
     // check the last byte, bit by bit.
     size_t const end_bit_idx = loose_bits_count - 1;
     for (size_t bit_idx = 0; bit_idx <= end_bit_idx; ++bit_idx) {
-        if (!((*last_elem_it) & (1U << (bit_idx % 8)))) {
+        if (!((*last_elem_it) & byte_set_at(bit_idx % 8))) {
             return false;
         }
     }
@@ -72,34 +92,34 @@ bool bitarray_all(BitArray const* bitarray_ptr) {
     return true;
 }
 
-bool bitarray_any(BitArray const* bitarray_ptr) {
-    uint8_t const* const end =
-        bitarray_ptr->data + (1 + (bitarray_ptr->length_in_bits - 1) / 8);
+bool bitarray_any(BitArray const* const ba) {
+    uint8_t const* const end = bitarray_end(ba);
 
-    for (uint8_t const* it = bitarray_ptr->data; it != end; ++it) {
+    for (uint8_t const* it = ba->data; it != end; ++it) {
         if (*it) {
             return true;
         }
     }
+
     return false;
 }
 
-bool bitarray_none(BitArray const* bitarray_ptr) {
-    uint8_t const* const end =
-        bitarray_ptr->data + (1 + (bitarray_ptr->length_in_bits - 1) / 8);
+bool bitarray_none(BitArray const* const ba) {
+    uint8_t const* const end = bitarray_end(ba);
 
-    for (uint8_t const* it = bitarray_ptr->data; it != end; ++it) {
+    for (uint8_t const* it = ba->data; it != end; ++it) {
         if (*it) {
             return false;
         }
     }
+
     return true;
 }
 
-size_t bitarray_popcount(BitArray const* bitarray_ptr) {
+size_t bitarray_popcount(BitArray const* const ba) {
 #   ifndef BIT_ARRAY_USE_BUILTIN_POPCOUNT
-    // mapping: index -> ammount of set bits in the index.
-    // static_assert(u8_popcount_table[3] == 2) (number 3 has two set bits).
+
+    // u8_popcount_table :: bit_index -> ammount of set bits in the index.
     static size_t const u8_popcount_table[256] = {
         0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
         1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
@@ -118,14 +138,14 @@ size_t bitarray_popcount(BitArray const* bitarray_ptr) {
         3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
         4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8,
     };
+    // static_assert(u8_popcount_table[3] == 2) (number 3 has two set bits).
+
 #   endif
 
     size_t popcount = 0;
+    uint8_t const* const end = bitarray_end(ba);
 
-    uint8_t const* const end =
-        bitarray_ptr->data + (1 + (bitarray_ptr->length_in_bits - 1) / 8);
-
-    for (uint8_t const* it = bitarray_ptr->data; it != end; ++it) {
+    for (uint8_t const* it = ba->data; it != end; ++it) {
 #       ifdef BIT_ARRAY_USE_BUILTIN_POPCOUNT
         popcount += __builtin_popcount(*it);
 #       else
@@ -136,50 +156,42 @@ size_t bitarray_popcount(BitArray const* bitarray_ptr) {
     return popcount;
 }
 
-size_t bitarray_length(BitArray const* bitarray_ptr) {
-    return bitarray_ptr->length_in_bits;
+size_t bitarray_length(BitArray const* const ba) {
+    return ba->length_in_bits;
 }
 
-size_t bitarray_capacity(BitArray const* bitarray_ptr) {
-    return (1 + (bitarray_ptr->length_in_bits - 1) / 8) * 8;
+size_t bitarray_capacity(BitArray const* const ba) {
+    return bitarray_capacity_in_bytes(ba) * 8;
 }
 
-void bitarray_set(BitArray* bitarray_ptr, size_t bit_idx) {
+void bitarray_set(BitArray* const ba, size_t const bit_idx) {
 #   ifdef BIT_ARRAY_ASSERTS
-    assert(bit_idx < bitarray_ptr->length_in_bits);
+    assert(bit_idx < ba->length_in_bits);
 #   endif
 
-    bitarray_ptr->data[bit_idx / 8] |= (1U << (bit_idx % 8));
+    ba->data[bit_idx / 8] |= byte_set_at(bit_idx % 8);
 }
 
-void bitarray_unset(BitArray* bitarray_ptr, size_t bit_idx) {
+void bitarray_unset(BitArray* const ba, size_t const bit_idx) {
 #   ifdef BIT_ARRAY_ASSERTS
-    assert(bit_idx < bitarray_ptr->length_in_bits);
+    assert(bit_idx < ba->length_in_bits);
 #   endif
 
-    bitarray_ptr->data[bit_idx / 8] &= ~(1U << (bit_idx % 8));
+    ba->data[bit_idx / 8] &= ~byte_set_at(bit_idx % 8);
 }
 
-void bitarray_fill(BitArray* bitarray_ptr) {
-    memset(
-        bitarray_ptr->data,
-        0xFF,
-        1 + (bitarray_ptr->length_in_bits - 1) / 8
-    );
+void bitarray_fill(BitArray* const ba) {
+    memset(ba->data, 0xFF, bitarray_capacity_in_bytes(ba));
 }
 
-void bitarray_clear(BitArray* bitarray_ptr) {
-    memset(
-        bitarray_ptr->data,
-        0x00,
-        1 + (bitarray_ptr->length_in_bits - 1) / 8
-    );
+void bitarray_clear(BitArray* const ba) {
+    memset(ba->data, 0x00, bitarray_capacity_in_bytes(ba));
 }
 
-void bitarray_flip(BitArray* bitarray_ptr, size_t bit_idx) {
+void bitarray_flip(BitArray* const ba, size_t const bit_idx) {
 #   ifdef BIT_ARRAY_ASSERTS
-    assert(bit_idx < bitarray_ptr->length_in_bits);
+    assert(bit_idx < ba->length_in_bits);
 #   endif
 
-    bitarray_ptr->data[bit_idx / 8] ^= (1U << (bit_idx % 8));
+    ba->data[bit_idx / 8] ^= byte_set_at(bit_idx % 8);
 }
