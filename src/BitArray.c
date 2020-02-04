@@ -14,8 +14,8 @@ struct BitArray {
 };
 
 // Returns a byte where every bit except the one at bit_idx is unset.
-// Does not check wether bit_idx is in the interval [0, 8).
-// Index starts from the left.
+// Does not check whether bit_idx is in the interval [0, 8).
+// Index starts from the right.
 // byte_set_at(2) = b00000100
 static inline uint8_t byte_set_at(size_t const bit_idx) {
     return UINT8_C(1) << bit_idx;
