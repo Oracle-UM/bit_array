@@ -30,6 +30,11 @@ static inline uint8_t const* bitarray_end(BitArray const* const ba) {
     return ba->data + bitarray_capacity_in_bytes(ba);
 }
 
+// Returns a pointer to the last byte of the bitarray.
+static inline uint8_t* bitarray_rbegin(BitArray const* const ba) {
+    return ba->data + (ba->length_in_bits - 1) / 8;
+}
+
 // Returns the number of set bits in a byte.
 static size_t byte_popcount(uint8_t const byte) {
 #   ifdef BIT_ARRAY_USE_BUILTIN_POPCOUNT
@@ -94,8 +99,7 @@ bool bitarray_check(BitArray const* const ba, size_t const bit_idx) {
 }
 
 bool bitarray_all(BitArray const* const ba) {
-    uint8_t const* const last_elem_it =
-        ba->data + ((ba->length_in_bits - 1) / 8);
+    uint8_t const* const last_elem_it = bitarray_rbegin(ba);
 
     for (uint8_t const* it = ba->data; it != last_elem_it; ++it) {
         if (*it != 0xFF) {
@@ -166,7 +170,17 @@ void bitarray_unset(BitArray* const ba, size_t const bit_idx) {
 }
 
 void bitarray_fill(BitArray* const ba) {
-    memset(ba->data, 0xFF, bitarray_capacity_in_bytes(ba));
+    memset(ba->data, 0xFF, bitarray_capacity_in_bytes(ba) - 1);
+
+    // Must not set unused bits to avoid incorrect checks with
+    // bitarray_all/any/none().
+    uint8_t* const last_elem_it = bitarray_rbegin();
+    size_t const bits_left = ba->length_in_bits % 8;
+    if (bits_left) {
+        *last_elem_it = (UINT8_C(1) << bits_left) - 1;
+    } else {
+        *last_elem_it = 0xFF;
+    }
 }
 
 void bitarray_clear(BitArray* const ba) {
