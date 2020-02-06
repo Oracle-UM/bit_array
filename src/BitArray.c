@@ -30,6 +30,35 @@ static inline uint8_t const* bitarray_end(BitArray const* const ba) {
     return ba->data + bitarray_capacity_in_bytes(ba);
 }
 
+// Returns the number of set bits in a byte.
+static size_t byte_popcount(uint8_t const byte) {
+#   ifdef BIT_ARRAY_USE_BUILTIN_POPCOUNT
+    return __builtin_popcount(byte);
+#   else
+    // u8_popcount_table[byte] -> ammount of set bits in the byte.
+    static size_t const u8_popcount_table[256] = {
+        0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
+        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+        3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+        3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+        4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8,
+    };
+    // static_assert(u8_popcount_table[3] == 2) (number 3 has two set bits).
+    return u8_popcount_table[byte];
+#   endif
+}
+
 BitArray* bitarray_new(size_t const length) {
 #   ifdef BIT_ARRAY_ASSERTS
     assert(length);
@@ -117,43 +146,14 @@ bool bitarray_none(BitArray const* const ba) {
 }
 
 size_t bitarray_popcount(BitArray const* const ba) {
-#   ifndef BIT_ARRAY_USE_BUILTIN_POPCOUNT
-
-    // u8_popcount_table :: bit_index -> ammount of set bits in the index.
-    static size_t const u8_popcount_table[256] = {
-        0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
-        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
-        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
-        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
-        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-        3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
-        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
-        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-        3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
-        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-        3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
-        3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
-        4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8,
-    };
-    // static_assert(u8_popcount_table[3] == 2) (number 3 has two set bits).
-
-#   endif
-
-    size_t popcount = 0;
+    size_t total_popcount = 0;
     uint8_t const* const end = bitarray_end(ba);
 
     for (uint8_t const* it = ba->data; it != end; ++it) {
-#       ifdef BIT_ARRAY_USE_BUILTIN_POPCOUNT
-        popcount += __builtin_popcount(*it);
-#       else
-        popcount += u8_popcount_table[*it];
-#       endif
+        total_popcount += byte_popcount(*it);
     }
 
-    return popcount;
+    return total_popcount;
 }
 
 size_t bitarray_length(BitArray const* const ba) {
