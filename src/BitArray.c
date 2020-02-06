@@ -31,7 +31,7 @@ static inline uint8_t const* bitarray_end(BitArray const* const ba) {
 }
 
 // Returns a pointer to the last byte of the bitarray.
-static inline uint8_t* bitarray_rbegin(BitArray const* const ba) {
+static inline uint8_t* bitarray_last(BitArray const* const ba) {
     return ba->data + (ba->length_in_bits - 1) / 8;
 }
 
@@ -99,15 +99,15 @@ bool bitarray_check(BitArray const* const ba, size_t const bit_idx) {
 }
 
 bool bitarray_all(BitArray const* const ba) {
-    uint8_t const* const last_elem_it = bitarray_rbegin(ba);
+    uint8_t const* const last = bitarray_last(ba);
 
-    for (uint8_t const* it = ba->data; it != last_elem_it; ++it) {
+    for (uint8_t const* it = ba->data; it != last; ++it) {
         if (*it != 0xFF) {
             return false;
         }
     }
 
-    return (ba->length_in_bits % 8) == byte_popcount(*last_elem_it);
+    return (ba->length_in_bits % 8) == byte_popcount(*last);
 }
 
 bool bitarray_any(BitArray const* const ba) {
@@ -170,16 +170,16 @@ void bitarray_unset(BitArray* const ba, size_t const bit_idx) {
 }
 
 void bitarray_fill(BitArray* const ba) {
-    memset(ba->data, 0xFF, bitarray_capacity_in_bytes(ba) - 1);
+    memset(ba->data, 0xFF, (ba->length_in_bits - 1) / 8);
 
-    // Must not set unused bits to avoid incorrect checks with
-    // bitarray_all/any/none().
-    uint8_t* const last_elem_it = bitarray_rbegin();
-    size_t const bits_left = ba->length_in_bits % 8;
-    if (bits_left) {
-        *last_elem_it = byte_set_at(bits_left) - 1;
+    // Must not set unreachable bits to avoid incorrect checks
+    // with bitarray_all/any/none().
+    uint8_t* const last = bitarray_last();
+    size_t const remaining_bits = ba->length_in_bits % 8;
+    if (remaining_bits) {
+        *last = byte_set_at(remaining_bits) - 1;
     } else {
-        *last_elem_it = 0xFF;
+        *last = 0xFF;
     }
 }
 
