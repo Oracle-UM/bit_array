@@ -177,7 +177,7 @@ void bitarray_fill(BitArray* const ba) {
     uint8_t* const last_elem_it = bitarray_rbegin();
     size_t const bits_left = ba->length_in_bits % 8;
     if (bits_left) {
-        *last_elem_it = (UINT8_C(1) << bits_left) - 1;
+        *last_elem_it = byte_set_at(bits_left) - 1;
     } else {
         *last_elem_it = 0xFF;
     }
