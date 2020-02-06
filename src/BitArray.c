@@ -97,18 +97,13 @@ bool bitarray_all(BitArray const* const ba) {
     uint8_t const* const last_elem_it =
         ba->data + ((ba->length_in_bits - 1) / 8);
 
-    // check the array byte by byte, excluding the last byte.
     for (uint8_t const* it = ba->data; it != last_elem_it; ++it) {
         if (*it != 0xFF) {
             return false;
         }
     }
 
-    size_t const loose_bits_count = ba->length_in_bits % 8;
-
-    return loose_bits_count ?
-        loose_bits_count == byte_popcount(*last_elem_it);
-        : *last_elem_it == 0xFF;
+    return (ba->length_in_bits % 8) == byte_popcount(*last_elem_it);
 }
 
 bool bitarray_any(BitArray const* const ba) {
