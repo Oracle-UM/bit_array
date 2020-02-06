@@ -106,19 +106,9 @@ bool bitarray_all(BitArray const* const ba) {
 
     size_t const loose_bits_count = ba->length_in_bits % 8;
 
-    if (loose_bits_count == 0) {
-        return *last_elem_it == 0xFF;
-    }
-
-    // check the last byte, bit by bit.
-    size_t const end_bit_idx = loose_bits_count - 1;
-    for (size_t bit_idx = 0; bit_idx <= end_bit_idx; ++bit_idx) {
-        if (!((*last_elem_it) & byte_set_at(bit_idx % 8))) {
-            return false;
-        }
-    }
-
-    return true;
+    return loose_bits_count ?
+        loose_bits_count == byte_popcount(*last_elem_it);
+        : *last_elem_it == 0xFF;
 }
 
 bool bitarray_any(BitArray const* const ba) {
