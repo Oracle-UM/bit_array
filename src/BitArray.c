@@ -31,7 +31,12 @@ static inline uint8_t const* bitarray_end(BitArray const* const ba) {
 }
 
 // Returns a pointer to the last byte of the bitarray.
-static inline uint8_t* bitarray_last(BitArray const* const ba) {
+static inline uint8_t const* bitarray_last(BitArray const* const ba) {
+    return ba->data + (ba->length_in_bits - 1) / 8;
+}
+
+// Returns a mutable pointer to the last byte of the bitarray.
+static inline uint8_t* bitarray_last_mut(BitArray* const ba) {
     return ba->data + (ba->length_in_bits - 1) / 8;
 }
 
@@ -174,7 +179,7 @@ void bitarray_fill(BitArray* const ba) {
 
     // Must not set unreachable bits to avoid incorrect checks
     // with bitarray_all/any/none().
-    uint8_t* const last = bitarray_last();
+    uint8_t* const last = bitarray_last_mut(ba);
     size_t const remaining_bits = ba->length_in_bits % 8;
     if (remaining_bits) {
         *last = byte_set_at(remaining_bits) - 1;
