@@ -1,12 +1,12 @@
 #include "bit_array.h"
 
+#include <assert.h>
+#include <limits.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef BIT_ARRAY_ASSERTS
-#   include <assert.h>
-#endif
+static_assert(CHAR_BIT == 8, "Expected a byte to consist exaclty of 8 bits.");
 
 struct BitArray {
     size_t length_in_bits;
@@ -18,7 +18,7 @@ struct BitArray {
 // Index starts from the right.
 // byte_set_at(2) = b00000100
 static inline uint8_t byte_set_at(size_t const bit_idx) {
-    return UINT8_C(1) << bit_idx;
+    return UINT8_C(0x01u) << bit_idx;
 }
 
 static inline size_t bitarray_capacity_in_bytes(BitArray const* const ba) {
@@ -42,7 +42,7 @@ static inline uint8_t* bitarray_last_mut(BitArray* const ba) {
 
 // Returns the number of set bits in a byte.
 static size_t byte_popcount(uint8_t const byte) {
-#   ifdef BIT_ARRAY_USE_BUILTIN_POPCOUNT
+#   if BIT_ARRAY_USE_BUILTIN_POPCOUNT
     return __builtin_popcount(byte);
 #   else
     // u8_popcount_table[byte] -> ammount of set bits in the byte.
@@ -64,20 +64,19 @@ static size_t byte_popcount(uint8_t const byte) {
         3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
         4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8,
     };
-    // static_assert(u8_popcount_table[3] == 2) (number 3 has two set bits).
+    // static_assert(u8_popcount_table[3] == 2);  (number 3 has two set bits).
     return u8_popcount_table[byte];
 #   endif
 }
 
-BitArray* bitarray_new(size_t const length) {
+BitArray* bitarray_with_capacity(size_t const length) {
 #   ifdef BIT_ARRAY_ASSERTS
     assert(length);
 #   endif
 
     BitArray* const ba = calloc(
         1,
-        sizeof(BitArray) +
-            1 + (length - 1) / 8  // converting bits to bytes
+        sizeof(BitArray) + 1 + (length - 1) / 8  // converting bits to bytes
     );
 
 #   ifdef BIT_ARRAY_ASSERTS

@@ -5,20 +5,36 @@
 #include <stddef.h>
 
 /**
+ * If set to @p true, performs runtime bounds-checking on bitarray length and
+ * index function arguments, as well as null checking on memory allocations.
+ * Otherwise, assumes these are always valid. 
+ */
+#define BIT_ARRAY_ASSERTS false
+
+/**
+ * If set to @p true, uses compiler builtins to compute byte popcount.
+ * Otherwise, uses custom implementation.
+ */
+#define BIT_ARRAY_USE_BUILTIN_POPCOUNT false
+
+/**
  * A compact, fixed size heap array of bit values.
  */
 typedef struct BitArray BitArray;
 
 /**
- * Constructs an empty bitarray.
+ * Constructs a bitarray with all bits unset.
  * @param length the length, in bits, of the bitarray. <b>Must not be zero</b>.
+ * If @p BIT_ARRAY_ASSERTS is set to @p true, checks if <tt>length > 0</tt>, and
+ * if the memory allocation was successful.
  * @return a pointer to the constructed bitarray.
  * If an error occurs allocating memory, @p NULL may be returned.
  */
-BitArray* bitarray_new(size_t length);
+BitArray* bitarray_with_capacity(size_t length);
 
 /**
  * Deallocates the memory used by the bitarray.
+ * Any pointer to the bitarray becomes invalid.
  * @param ba a pointer to the bitarray.
  */
 void bitarray_delete(BitArray* ba);
@@ -28,7 +44,8 @@ void bitarray_delete(BitArray* ba);
  * Does not check whether @p bit_idx is a valid index in the bitarray.
  * @param ba a pointer to the bitarray.
  * @param bit_idx the index of the bit to be checked. Must belong in the
- * interval <tt>[ 0, bitarray_length(ba) )</tt>.
+ * interval <tt>[ 0, bitarray_length(ba) )</tt>. If @p BIT_ARRAY_ASSERTS is set
+ * to @p true, checks if @p bit_idx is in this interval.
  * @return true if the bit is set, false otherwise.
  */
 bool bitarray_check(BitArray const* ba, size_t bit_idx);
@@ -80,7 +97,8 @@ size_t bitarray_capacity(BitArray const* ba);
  * Does not check whether @p bit_idx is a valid index in the bitarray.
  * @param ba a pointer to the bitarray.
  * @param bit_idx the index of the bit to be set. Must belong in the interval
- * <tt>[ 0, bitarray_length(ba) )</tt>.
+ * <tt>[ 0, bitarray_length(ba) )</tt>. If @p BIT_ARRAY_ASSERTS is set to
+ * @p true, checks if @p bit_idx is in this interval.
  */
 void bitarray_set(BitArray* ba, size_t bit_idx);
 
@@ -89,7 +107,8 @@ void bitarray_set(BitArray* ba, size_t bit_idx);
  * Does not check whether @p bit_idx is a valid index in the bitarray.
  * @param ba a pointer to the bitarray.
  * @param bit_idx the index of the bit to be unset. Must belong in the interval
- * <tt>[ 0, bitarray_length(ba) )</tt>.
+ * <tt>[ 0, bitarray_length(ba) )</tt>. If @p BIT_ARRAY_ASSERTS is set to
+ * @p true, checks if @p bit_idx is in this interval.
  */
 void bitarray_unset(BitArray* ba, size_t bit_idx);
 
@@ -111,7 +130,8 @@ void bitarray_clear(BitArray* ba);
  * Does not check whether @p bit_idx is a valid index in the bitarray.
  * @param ba a pointer to the bitarray.
  * @param bit_idx the index of the bit to be flipped. Must belong in the
- * interval <tt>[ 0, bitarray_length(ba) )</tt>.
+ * interval <tt>[ 0, bitarray_length(ba) )</tt>. If @p BIT_ARRAY_ASSERTS is set
+ * to @p true, checks if @p bit_idx is in this interval.
  */
 void bitarray_flip(BitArray* ba, size_t bit_idx);
 
