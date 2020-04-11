@@ -1,4 +1,4 @@
-#include "BitArray.h"
+#include "bit_array.h"
 
 #include <stdint.h>
 #include <stdlib.h>

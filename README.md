@@ -1,2 +1,2 @@
-# bitarray
-A C library for a compact, fixed size heap array of bit values.
+# bit_array
+A compact, fixed sized, dynamic memory array of bit values.
