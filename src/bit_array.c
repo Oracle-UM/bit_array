@@ -70,7 +70,7 @@ static size_t byte_popcount(uint8_t const byte) {
 }
 
 BitArray* bitarray_with_capacity(size_t const length) {
-#   ifdef BIT_ARRAY_ASSERTS
+#   if BIT_ARRAY_ASSERTS
     assert(length);
 #   endif
 
@@ -79,13 +79,14 @@ BitArray* bitarray_with_capacity(size_t const length) {
         sizeof(BitArray) + 1 + (length - 1) / 8  // converting bits to bytes
     );
 
-#   ifdef BIT_ARRAY_ASSERTS
+#   if BIT_ARRAY_ASSERTS
     assert(ba);
-#   endif
-
+    ba->length_in_bits = length;
+#   else
     if (ba) {
         ba->length_in_bits = length;
     }
+#   endif
 
     return ba;
 }
@@ -95,7 +96,7 @@ void bitarray_delete(BitArray* const ba) {
 }
 
 bool bitarray_check(BitArray const* const ba, size_t const bit_idx) {
-#   ifdef BIT_ARRAY_ASSERTS
+#   if BIT_ARRAY_ASSERTS
     assert(bit_idx < ba->length_in_bits);
 #   endif
 
@@ -158,7 +159,7 @@ size_t bitarray_capacity(BitArray const* const ba) {
 }
 
 void bitarray_set(BitArray* const ba, size_t const bit_idx) {
-#   ifdef BIT_ARRAY_ASSERTS
+#   if BIT_ARRAY_ASSERTS
     assert(bit_idx < ba->length_in_bits);
 #   endif
 
@@ -166,7 +167,7 @@ void bitarray_set(BitArray* const ba, size_t const bit_idx) {
 }
 
 void bitarray_unset(BitArray* const ba, size_t const bit_idx) {
-#   ifdef BIT_ARRAY_ASSERTS
+#   if BIT_ARRAY_ASSERTS
     assert(bit_idx < ba->length_in_bits);
 #   endif
 
@@ -192,7 +193,7 @@ void bitarray_clear(BitArray* const ba) {
 }
 
 void bitarray_flip(BitArray* const ba, size_t const bit_idx) {
-#   ifdef BIT_ARRAY_ASSERTS
+#   if BIT_ARRAY_ASSERTS
     assert(bit_idx < ba->length_in_bits);
 #   endif
 
