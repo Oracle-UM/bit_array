@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bitarray_19',['BitArray',['../struct_bit_array.html',1,'']]]
+  ['bitarray_23',['BitArray',['../struct_bit_array.html',1,'']]]
 ];

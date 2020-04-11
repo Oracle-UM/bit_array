@@ -1,0 +1,289 @@
+\hypertarget{bit__array_8c}{}\doxysection{src/bit\+\_\+array.c File Reference}
+\label{bit__array_8c}\index{src/bit\_array.c@{src/bit\_array.c}}
+{\ttfamily \#include \char`\"{}bit\+\_\+array.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$assert.\+h$>$}\newline
+{\ttfamily \#include $<$limits.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_bit_array}{Bit\+Array}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} $\ast$ \mbox{\hyperlink{bit__array_8c_a3ff6648b4ff73bda938d5b490f7a50b0}{bitarray\+\_\+with\+\_\+capacity}} (size\+\_\+t const length)
+\begin{DoxyCompactList}\small\item\em Constructs a bitarray with all bits unset. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{bit__array_8c_a2c74b5116b1bf712b83d6bd970069edf}{bitarray\+\_\+delete}} (\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} $\ast$const ba)
+\begin{DoxyCompactList}\small\item\em Deallocates the memory used by the bitarray. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{bit__array_8c_af328231ce25ad7d9bd1639e4d9c888f3}{bitarray\+\_\+check}} (\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$const ba, size\+\_\+t const bit\+\_\+idx)
+\begin{DoxyCompactList}\small\item\em Checks if the bit at the index {\ttfamily bit\+\_\+idx} is set. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{bit__array_8c_aa4f7351571f89b201298f3cc3925b787}{bitarray\+\_\+all}} (\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$const ba)
+\begin{DoxyCompactList}\small\item\em Checks if all the bits in the bitarray are set. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{bit__array_8c_a5dbef640c7c149d2d253be03aa1a98dd}{bitarray\+\_\+any}} (\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$const ba)
+\begin{DoxyCompactList}\small\item\em Checks if any bit in the bitarray is set. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{bit__array_8c_a1886f276b1e2d6a7016df69d996dcdab}{bitarray\+\_\+none}} (\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$const ba)
+\begin{DoxyCompactList}\small\item\em Checks if all the bits in the bitarray are unset. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{bit__array_8c_a2adda334c3ba57bd7695a3317cba7a70}{bitarray\+\_\+popcount}} (\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$const ba)
+\begin{DoxyCompactList}\small\item\em Returns the number of set bits. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{bit__array_8c_a27a784c3ca2abc0ffd4ed6564421d8ee}{bitarray\+\_\+length}} (\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$const ba)
+\begin{DoxyCompactList}\small\item\em Returns the ammount of bits in the bitarray. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{bit__array_8c_a9cbe75dac90884a9dfb5423463c9be83}{bitarray\+\_\+capacity}} (\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$const ba)
+\begin{DoxyCompactList}\small\item\em Returns the maximum ammount of bits the bitarray can store. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{bit__array_8c_a5c77dbc0e5b6f78d2324f11fc1c95ab2}{bitarray\+\_\+set}} (\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} $\ast$const ba, size\+\_\+t const bit\+\_\+idx)
+\begin{DoxyCompactList}\small\item\em Sets the bit at the index {\ttfamily bit\+\_\+idx}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{bit__array_8c_a741e2692109f5c7ceac786044cd11036}{bitarray\+\_\+unset}} (\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} $\ast$const ba, size\+\_\+t const bit\+\_\+idx)
+\begin{DoxyCompactList}\small\item\em Unsets the bit at the index {\ttfamily bit\+\_\+idx}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{bit__array_8c_a0ad9bdaf4b063078a13ad8764e54cb38}{bitarray\+\_\+fill}} (\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} $\ast$const ba)
+\begin{DoxyCompactList}\small\item\em Sets every bit in the interval {\ttfamily \mbox{[} 0, bitarray\+\_\+length(ba) )}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{bit__array_8c_a44c651158a4162c06de3c60e90b10bc6}{bitarray\+\_\+clear}} (\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} $\ast$const ba)
+\begin{DoxyCompactList}\small\item\em Unsets every bit in the interval {\ttfamily \mbox{[} 0, bitarray\+\_\+length(ba) )}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{bit__array_8c_a377a699a9d2478b8ad33ae7c2663d576}{bitarray\+\_\+flip}} (\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} $\ast$const ba, size\+\_\+t const bit\+\_\+idx)
+\begin{DoxyCompactList}\small\item\em Flips the bit at the index {\ttfamily bit\+\_\+idx}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{bit__array_8c_aa4f7351571f89b201298f3cc3925b787}\label{bit__array_8c_aa4f7351571f89b201298f3cc3925b787}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_all@{bitarray\_all}}
+\index{bitarray\_all@{bitarray\_all}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_all()}{bitarray\_all()}}
+{\footnotesize\ttfamily bool bitarray\+\_\+all (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$}]{ba }\end{DoxyParamCaption})}
+
+
+
+Checks if all the bits in the bitarray are set. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ba} & a pointer to the bitarray. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if all the bits are set, false otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{bit__array_8c_a5dbef640c7c149d2d253be03aa1a98dd}\label{bit__array_8c_a5dbef640c7c149d2d253be03aa1a98dd}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_any@{bitarray\_any}}
+\index{bitarray\_any@{bitarray\_any}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_any()}{bitarray\_any()}}
+{\footnotesize\ttfamily bool bitarray\+\_\+any (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$}]{ba }\end{DoxyParamCaption})}
+
+
+
+Checks if any bit in the bitarray is set. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ba} & a pointer to the bitarray. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if any bit is set, false otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{bit__array_8c_a9cbe75dac90884a9dfb5423463c9be83}\label{bit__array_8c_a9cbe75dac90884a9dfb5423463c9be83}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_capacity@{bitarray\_capacity}}
+\index{bitarray\_capacity@{bitarray\_capacity}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_capacity()}{bitarray\_capacity()}}
+{\footnotesize\ttfamily size\+\_\+t bitarray\+\_\+capacity (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$}]{ba }\end{DoxyParamCaption})}
+
+
+
+Returns the maximum ammount of bits the bitarray can store. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ba} & a pointer to the bitarray. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the capacity of the bitarray. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{bit__array_8c_af328231ce25ad7d9bd1639e4d9c888f3}\label{bit__array_8c_af328231ce25ad7d9bd1639e4d9c888f3}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_check@{bitarray\_check}}
+\index{bitarray\_check@{bitarray\_check}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_check()}{bitarray\_check()}}
+{\footnotesize\ttfamily bool bitarray\+\_\+check (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$}]{ba,  }\item[{size\+\_\+t}]{bit\+\_\+idx }\end{DoxyParamCaption})}
+
+
+
+Checks if the bit at the index {\ttfamily bit\+\_\+idx} is set. 
+
+Does not check whether {\ttfamily bit\+\_\+idx} is a valid index in the bitarray. 
+\begin{DoxyParams}{Parameters}
+{\em ba} & a pointer to the bitarray. \\
+\hline
+{\em bit\+\_\+idx} & the index of the bit to be checked. Must belong in the interval {\ttfamily \mbox{[} 0, bitarray\+\_\+length(ba) )}. If {\ttfamily B\+I\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+A\+S\+S\+E\+R\+TS} is set to {\ttfamily true}, checks if {\ttfamily bit\+\_\+idx} is in this interval. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the bit is set, false otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{bit__array_8c_a44c651158a4162c06de3c60e90b10bc6}\label{bit__array_8c_a44c651158a4162c06de3c60e90b10bc6}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_clear@{bitarray\_clear}}
+\index{bitarray\_clear@{bitarray\_clear}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_clear()}{bitarray\_clear()}}
+{\footnotesize\ttfamily void bitarray\+\_\+clear (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} $\ast$}]{ba }\end{DoxyParamCaption})}
+
+
+
+Unsets every bit in the interval {\ttfamily \mbox{[} 0, bitarray\+\_\+length(ba) )}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ba} & a pointer to the bitarray. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{bit__array_8c_a2c74b5116b1bf712b83d6bd970069edf}\label{bit__array_8c_a2c74b5116b1bf712b83d6bd970069edf}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_delete@{bitarray\_delete}}
+\index{bitarray\_delete@{bitarray\_delete}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_delete()}{bitarray\_delete()}}
+{\footnotesize\ttfamily void bitarray\+\_\+delete (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} $\ast$}]{ba }\end{DoxyParamCaption})}
+
+
+
+Deallocates the memory used by the bitarray. 
+
+Any pointer to the bitarray becomes invalid. 
+\begin{DoxyParams}{Parameters}
+{\em ba} & a pointer to the bitarray. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{bit__array_8c_a0ad9bdaf4b063078a13ad8764e54cb38}\label{bit__array_8c_a0ad9bdaf4b063078a13ad8764e54cb38}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_fill@{bitarray\_fill}}
+\index{bitarray\_fill@{bitarray\_fill}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_fill()}{bitarray\_fill()}}
+{\footnotesize\ttfamily void bitarray\+\_\+fill (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} $\ast$}]{ba }\end{DoxyParamCaption})}
+
+
+
+Sets every bit in the interval {\ttfamily \mbox{[} 0, bitarray\+\_\+length(ba) )}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ba} & a pointer to the bitarray. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{bit__array_8c_a377a699a9d2478b8ad33ae7c2663d576}\label{bit__array_8c_a377a699a9d2478b8ad33ae7c2663d576}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_flip@{bitarray\_flip}}
+\index{bitarray\_flip@{bitarray\_flip}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_flip()}{bitarray\_flip()}}
+{\footnotesize\ttfamily void bitarray\+\_\+flip (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} $\ast$}]{ba,  }\item[{size\+\_\+t}]{bit\+\_\+idx }\end{DoxyParamCaption})}
+
+
+
+Flips the bit at the index {\ttfamily bit\+\_\+idx}. 
+
+If the bit is set, it\textquotesingle{}s unset. If the bit is unset, it\textquotesingle{}s set. Does not check whether {\ttfamily bit\+\_\+idx} is a valid index in the bitarray. 
+\begin{DoxyParams}{Parameters}
+{\em ba} & a pointer to the bitarray. \\
+\hline
+{\em bit\+\_\+idx} & the index of the bit to be flipped. Must belong in the interval {\ttfamily \mbox{[} 0, bitarray\+\_\+length(ba) )}. If {\ttfamily B\+I\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+A\+S\+S\+E\+R\+TS} is set to {\ttfamily true}, checks if {\ttfamily bit\+\_\+idx} is in this interval. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{bit__array_8c_a27a784c3ca2abc0ffd4ed6564421d8ee}\label{bit__array_8c_a27a784c3ca2abc0ffd4ed6564421d8ee}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_length@{bitarray\_length}}
+\index{bitarray\_length@{bitarray\_length}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_length()}{bitarray\_length()}}
+{\footnotesize\ttfamily size\+\_\+t bitarray\+\_\+length (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$}]{ba }\end{DoxyParamCaption})}
+
+
+
+Returns the ammount of bits in the bitarray. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ba} & a pointer to the bitarray. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the length of the bitarray. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{bit__array_8c_a1886f276b1e2d6a7016df69d996dcdab}\label{bit__array_8c_a1886f276b1e2d6a7016df69d996dcdab}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_none@{bitarray\_none}}
+\index{bitarray\_none@{bitarray\_none}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_none()}{bitarray\_none()}}
+{\footnotesize\ttfamily bool bitarray\+\_\+none (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$}]{ba }\end{DoxyParamCaption})}
+
+
+
+Checks if all the bits in the bitarray are unset. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ba} & a pointer to the bitarray. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if all the bits are unset, false otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{bit__array_8c_a2adda334c3ba57bd7695a3317cba7a70}\label{bit__array_8c_a2adda334c3ba57bd7695a3317cba7a70}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_popcount@{bitarray\_popcount}}
+\index{bitarray\_popcount@{bitarray\_popcount}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_popcount()}{bitarray\_popcount()}}
+{\footnotesize\ttfamily size\+\_\+t bitarray\+\_\+popcount (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} const $\ast$}]{ba }\end{DoxyParamCaption})}
+
+
+
+Returns the number of set bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ba} & a pointer to the bitarray. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the number of set bits. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{bit__array_8c_a5c77dbc0e5b6f78d2324f11fc1c95ab2}\label{bit__array_8c_a5c77dbc0e5b6f78d2324f11fc1c95ab2}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_set@{bitarray\_set}}
+\index{bitarray\_set@{bitarray\_set}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_set()}{bitarray\_set()}}
+{\footnotesize\ttfamily void bitarray\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} $\ast$}]{ba,  }\item[{size\+\_\+t}]{bit\+\_\+idx }\end{DoxyParamCaption})}
+
+
+
+Sets the bit at the index {\ttfamily bit\+\_\+idx}. 
+
+Does not check whether {\ttfamily bit\+\_\+idx} is a valid index in the bitarray. 
+\begin{DoxyParams}{Parameters}
+{\em ba} & a pointer to the bitarray. \\
+\hline
+{\em bit\+\_\+idx} & the index of the bit to be set. Must belong in the interval {\ttfamily \mbox{[} 0, bitarray\+\_\+length(ba) )}. If {\ttfamily B\+I\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+A\+S\+S\+E\+R\+TS} is set to {\ttfamily true}, checks if {\ttfamily bit\+\_\+idx} is in this interval. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{bit__array_8c_a741e2692109f5c7ceac786044cd11036}\label{bit__array_8c_a741e2692109f5c7ceac786044cd11036}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_unset@{bitarray\_unset}}
+\index{bitarray\_unset@{bitarray\_unset}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_unset()}{bitarray\_unset()}}
+{\footnotesize\ttfamily void bitarray\+\_\+unset (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_bit_array}{Bit\+Array}} $\ast$}]{ba,  }\item[{size\+\_\+t}]{bit\+\_\+idx }\end{DoxyParamCaption})}
+
+
+
+Unsets the bit at the index {\ttfamily bit\+\_\+idx}. 
+
+Does not check whether {\ttfamily bit\+\_\+idx} is a valid index in the bitarray. 
+\begin{DoxyParams}{Parameters}
+{\em ba} & a pointer to the bitarray. \\
+\hline
+{\em bit\+\_\+idx} & the index of the bit to be unset. Must belong in the interval {\ttfamily \mbox{[} 0, bitarray\+\_\+length(ba) )}. If {\ttfamily B\+I\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+A\+S\+S\+E\+R\+TS} is set to {\ttfamily true}, checks if {\ttfamily bit\+\_\+idx} is in this interval. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{bit__array_8c_a3ff6648b4ff73bda938d5b490f7a50b0}\label{bit__array_8c_a3ff6648b4ff73bda938d5b490f7a50b0}} 
+\index{bit\_array.c@{bit\_array.c}!bitarray\_with\_capacity@{bitarray\_with\_capacity}}
+\index{bitarray\_with\_capacity@{bitarray\_with\_capacity}!bit\_array.c@{bit\_array.c}}
+\doxysubsubsection{\texorpdfstring{bitarray\_with\_capacity()}{bitarray\_with\_capacity()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_bit_array}{Bit\+Array}}$\ast$ bitarray\+\_\+with\+\_\+capacity (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{length }\end{DoxyParamCaption})}
+
+
+
+Constructs a bitarray with all bits unset. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em length} & the length, in bits, of the bitarray. {\bfseries{Must not be zero}}. If {\ttfamily B\+I\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+A\+S\+S\+E\+R\+TS} is set to {\ttfamily true}, checks if {\ttfamily length $>$ 0}, and if the memory allocation was successful. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a pointer to the constructed bitarray. If an error occurs allocating memory, {\ttfamily N\+U\+LL} may be returned. 
+\end{DoxyReturn}

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>BitArray: src/BitArray.c File Reference</title>
+<title>bit_array: src/bit_array.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,10 +21,10 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">BitArray
+   <div id="projectname">bit_array
    &#160;<span id="projectnumber">1.0</span>
    </div>
-   <div id="projectbrief">A bit array C library.</div>
+   <div id="projectbrief">A compact, fixed sized, dynamic memory array of bit values.</div>
   </td>
  </tr>
  </tbody>
@@ -71,10 +71,12 @@ $(function() {
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">BitArray.c File Reference</div>  </div>
+<div class="title">bit_array.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="_bit_array_8h_source.html">BitArray.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="bit__array_8h_source.html">bit_array.h</a>&quot;</code><br />
+<code>#include &lt;assert.h&gt;</code><br />
+<code>#include &lt;limits.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
@@ -86,47 +88,47 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aea90ff60677eddc9a6cc5501ed830cca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_bit_array.html">BitArray</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#aea90ff60677eddc9a6cc5501ed830cca">bitarray_new</a> (size_t const length)</td></tr>
-<tr class="memdesc:aea90ff60677eddc9a6cc5501ed830cca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty bitarray.  <a href="_bit_array_8c.html#aea90ff60677eddc9a6cc5501ed830cca">More...</a><br /></td></tr>
-<tr class="separator:aea90ff60677eddc9a6cc5501ed830cca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c74b5116b1bf712b83d6bd970069edf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#a2c74b5116b1bf712b83d6bd970069edf">bitarray_delete</a> (<a class="el" href="struct_bit_array.html">BitArray</a> *const ba)</td></tr>
-<tr class="memdesc:a2c74b5116b1bf712b83d6bd970069edf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocates the memory used by the bitarray.  <a href="_bit_array_8c.html#a2c74b5116b1bf712b83d6bd970069edf">More...</a><br /></td></tr>
+<tr class="memitem:a3ff6648b4ff73bda938d5b490f7a50b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_bit_array.html">BitArray</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#a3ff6648b4ff73bda938d5b490f7a50b0">bitarray_with_capacity</a> (size_t const length)</td></tr>
+<tr class="memdesc:a3ff6648b4ff73bda938d5b490f7a50b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a bitarray with all bits unset.  <a href="bit__array_8c.html#a3ff6648b4ff73bda938d5b490f7a50b0">More...</a><br /></td></tr>
+<tr class="separator:a3ff6648b4ff73bda938d5b490f7a50b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c74b5116b1bf712b83d6bd970069edf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#a2c74b5116b1bf712b83d6bd970069edf">bitarray_delete</a> (<a class="el" href="struct_bit_array.html">BitArray</a> *const ba)</td></tr>
+<tr class="memdesc:a2c74b5116b1bf712b83d6bd970069edf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocates the memory used by the bitarray.  <a href="bit__array_8c.html#a2c74b5116b1bf712b83d6bd970069edf">More...</a><br /></td></tr>
 <tr class="separator:a2c74b5116b1bf712b83d6bd970069edf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af328231ce25ad7d9bd1639e4d9c888f3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#af328231ce25ad7d9bd1639e4d9c888f3">bitarray_check</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba, size_t const bit_idx)</td></tr>
-<tr class="memdesc:af328231ce25ad7d9bd1639e4d9c888f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the bit at the index <code>bit_idx</code> is set.  <a href="_bit_array_8c.html#af328231ce25ad7d9bd1639e4d9c888f3">More...</a><br /></td></tr>
+<tr class="memitem:af328231ce25ad7d9bd1639e4d9c888f3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#af328231ce25ad7d9bd1639e4d9c888f3">bitarray_check</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba, size_t const bit_idx)</td></tr>
+<tr class="memdesc:af328231ce25ad7d9bd1639e4d9c888f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the bit at the index <code>bit_idx</code> is set.  <a href="bit__array_8c.html#af328231ce25ad7d9bd1639e4d9c888f3">More...</a><br /></td></tr>
 <tr class="separator:af328231ce25ad7d9bd1639e4d9c888f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4f7351571f89b201298f3cc3925b787"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#aa4f7351571f89b201298f3cc3925b787">bitarray_all</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba)</td></tr>
-<tr class="memdesc:aa4f7351571f89b201298f3cc3925b787"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if all the bits in the bitarray are set.  <a href="_bit_array_8c.html#aa4f7351571f89b201298f3cc3925b787">More...</a><br /></td></tr>
+<tr class="memitem:aa4f7351571f89b201298f3cc3925b787"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#aa4f7351571f89b201298f3cc3925b787">bitarray_all</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba)</td></tr>
+<tr class="memdesc:aa4f7351571f89b201298f3cc3925b787"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if all the bits in the bitarray are set.  <a href="bit__array_8c.html#aa4f7351571f89b201298f3cc3925b787">More...</a><br /></td></tr>
 <tr class="separator:aa4f7351571f89b201298f3cc3925b787"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5dbef640c7c149d2d253be03aa1a98dd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#a5dbef640c7c149d2d253be03aa1a98dd">bitarray_any</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba)</td></tr>
-<tr class="memdesc:a5dbef640c7c149d2d253be03aa1a98dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if any bit in the bitarray is set.  <a href="_bit_array_8c.html#a5dbef640c7c149d2d253be03aa1a98dd">More...</a><br /></td></tr>
+<tr class="memitem:a5dbef640c7c149d2d253be03aa1a98dd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#a5dbef640c7c149d2d253be03aa1a98dd">bitarray_any</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba)</td></tr>
+<tr class="memdesc:a5dbef640c7c149d2d253be03aa1a98dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if any bit in the bitarray is set.  <a href="bit__array_8c.html#a5dbef640c7c149d2d253be03aa1a98dd">More...</a><br /></td></tr>
 <tr class="separator:a5dbef640c7c149d2d253be03aa1a98dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1886f276b1e2d6a7016df69d996dcdab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#a1886f276b1e2d6a7016df69d996dcdab">bitarray_none</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba)</td></tr>
-<tr class="memdesc:a1886f276b1e2d6a7016df69d996dcdab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if all the bits in the bitarray are unset.  <a href="_bit_array_8c.html#a1886f276b1e2d6a7016df69d996dcdab">More...</a><br /></td></tr>
+<tr class="memitem:a1886f276b1e2d6a7016df69d996dcdab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#a1886f276b1e2d6a7016df69d996dcdab">bitarray_none</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba)</td></tr>
+<tr class="memdesc:a1886f276b1e2d6a7016df69d996dcdab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if all the bits in the bitarray are unset.  <a href="bit__array_8c.html#a1886f276b1e2d6a7016df69d996dcdab">More...</a><br /></td></tr>
 <tr class="separator:a1886f276b1e2d6a7016df69d996dcdab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2adda334c3ba57bd7695a3317cba7a70"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#a2adda334c3ba57bd7695a3317cba7a70">bitarray_popcount</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba)</td></tr>
-<tr class="memdesc:a2adda334c3ba57bd7695a3317cba7a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of set bits.  <a href="_bit_array_8c.html#a2adda334c3ba57bd7695a3317cba7a70">More...</a><br /></td></tr>
+<tr class="memitem:a2adda334c3ba57bd7695a3317cba7a70"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#a2adda334c3ba57bd7695a3317cba7a70">bitarray_popcount</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba)</td></tr>
+<tr class="memdesc:a2adda334c3ba57bd7695a3317cba7a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of set bits.  <a href="bit__array_8c.html#a2adda334c3ba57bd7695a3317cba7a70">More...</a><br /></td></tr>
 <tr class="separator:a2adda334c3ba57bd7695a3317cba7a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27a784c3ca2abc0ffd4ed6564421d8ee"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#a27a784c3ca2abc0ffd4ed6564421d8ee">bitarray_length</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba)</td></tr>
-<tr class="memdesc:a27a784c3ca2abc0ffd4ed6564421d8ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ammount of bits in the bitarray.  <a href="_bit_array_8c.html#a27a784c3ca2abc0ffd4ed6564421d8ee">More...</a><br /></td></tr>
+<tr class="memitem:a27a784c3ca2abc0ffd4ed6564421d8ee"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#a27a784c3ca2abc0ffd4ed6564421d8ee">bitarray_length</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba)</td></tr>
+<tr class="memdesc:a27a784c3ca2abc0ffd4ed6564421d8ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ammount of bits in the bitarray.  <a href="bit__array_8c.html#a27a784c3ca2abc0ffd4ed6564421d8ee">More...</a><br /></td></tr>
 <tr class="separator:a27a784c3ca2abc0ffd4ed6564421d8ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cbe75dac90884a9dfb5423463c9be83"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#a9cbe75dac90884a9dfb5423463c9be83">bitarray_capacity</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba)</td></tr>
-<tr class="memdesc:a9cbe75dac90884a9dfb5423463c9be83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the maximum ammount of bits the bitarray can store.  <a href="_bit_array_8c.html#a9cbe75dac90884a9dfb5423463c9be83">More...</a><br /></td></tr>
+<tr class="memitem:a9cbe75dac90884a9dfb5423463c9be83"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#a9cbe75dac90884a9dfb5423463c9be83">bitarray_capacity</a> (<a class="el" href="struct_bit_array.html">BitArray</a> const *const ba)</td></tr>
+<tr class="memdesc:a9cbe75dac90884a9dfb5423463c9be83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the maximum ammount of bits the bitarray can store.  <a href="bit__array_8c.html#a9cbe75dac90884a9dfb5423463c9be83">More...</a><br /></td></tr>
 <tr class="separator:a9cbe75dac90884a9dfb5423463c9be83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c77dbc0e5b6f78d2324f11fc1c95ab2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#a5c77dbc0e5b6f78d2324f11fc1c95ab2">bitarray_set</a> (<a class="el" href="struct_bit_array.html">BitArray</a> *const ba, size_t const bit_idx)</td></tr>
-<tr class="memdesc:a5c77dbc0e5b6f78d2324f11fc1c95ab2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the bit at the index <code>bit_idx</code>.  <a href="_bit_array_8c.html#a5c77dbc0e5b6f78d2324f11fc1c95ab2">More...</a><br /></td></tr>
+<tr class="memitem:a5c77dbc0e5b6f78d2324f11fc1c95ab2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#a5c77dbc0e5b6f78d2324f11fc1c95ab2">bitarray_set</a> (<a class="el" href="struct_bit_array.html">BitArray</a> *const ba, size_t const bit_idx)</td></tr>
+<tr class="memdesc:a5c77dbc0e5b6f78d2324f11fc1c95ab2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the bit at the index <code>bit_idx</code>.  <a href="bit__array_8c.html#a5c77dbc0e5b6f78d2324f11fc1c95ab2">More...</a><br /></td></tr>
 <tr class="separator:a5c77dbc0e5b6f78d2324f11fc1c95ab2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a741e2692109f5c7ceac786044cd11036"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#a741e2692109f5c7ceac786044cd11036">bitarray_unset</a> (<a class="el" href="struct_bit_array.html">BitArray</a> *const ba, size_t const bit_idx)</td></tr>
-<tr class="memdesc:a741e2692109f5c7ceac786044cd11036"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsets the bit at the index <code>bit_idx</code>.  <a href="_bit_array_8c.html#a741e2692109f5c7ceac786044cd11036">More...</a><br /></td></tr>
+<tr class="memitem:a741e2692109f5c7ceac786044cd11036"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#a741e2692109f5c7ceac786044cd11036">bitarray_unset</a> (<a class="el" href="struct_bit_array.html">BitArray</a> *const ba, size_t const bit_idx)</td></tr>
+<tr class="memdesc:a741e2692109f5c7ceac786044cd11036"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsets the bit at the index <code>bit_idx</code>.  <a href="bit__array_8c.html#a741e2692109f5c7ceac786044cd11036">More...</a><br /></td></tr>
 <tr class="separator:a741e2692109f5c7ceac786044cd11036"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ad9bdaf4b063078a13ad8764e54cb38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#a0ad9bdaf4b063078a13ad8764e54cb38">bitarray_fill</a> (<a class="el" href="struct_bit_array.html">BitArray</a> *const ba)</td></tr>
-<tr class="memdesc:a0ad9bdaf4b063078a13ad8764e54cb38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets every bit in the interval <code>[ 0, bitarray_length(ba) )</code>.  <a href="_bit_array_8c.html#a0ad9bdaf4b063078a13ad8764e54cb38">More...</a><br /></td></tr>
+<tr class="memitem:a0ad9bdaf4b063078a13ad8764e54cb38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#a0ad9bdaf4b063078a13ad8764e54cb38">bitarray_fill</a> (<a class="el" href="struct_bit_array.html">BitArray</a> *const ba)</td></tr>
+<tr class="memdesc:a0ad9bdaf4b063078a13ad8764e54cb38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets every bit in the interval <code>[ 0, bitarray_length(ba) )</code>.  <a href="bit__array_8c.html#a0ad9bdaf4b063078a13ad8764e54cb38">More...</a><br /></td></tr>
 <tr class="separator:a0ad9bdaf4b063078a13ad8764e54cb38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44c651158a4162c06de3c60e90b10bc6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#a44c651158a4162c06de3c60e90b10bc6">bitarray_clear</a> (<a class="el" href="struct_bit_array.html">BitArray</a> *const ba)</td></tr>
-<tr class="memdesc:a44c651158a4162c06de3c60e90b10bc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsets every bit in the interval <code>[ 0, bitarray_length(ba) )</code>.  <a href="_bit_array_8c.html#a44c651158a4162c06de3c60e90b10bc6">More...</a><br /></td></tr>
+<tr class="memitem:a44c651158a4162c06de3c60e90b10bc6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#a44c651158a4162c06de3c60e90b10bc6">bitarray_clear</a> (<a class="el" href="struct_bit_array.html">BitArray</a> *const ba)</td></tr>
+<tr class="memdesc:a44c651158a4162c06de3c60e90b10bc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsets every bit in the interval <code>[ 0, bitarray_length(ba) )</code>.  <a href="bit__array_8c.html#a44c651158a4162c06de3c60e90b10bc6">More...</a><br /></td></tr>
 <tr class="separator:a44c651158a4162c06de3c60e90b10bc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a377a699a9d2478b8ad33ae7c2663d576"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_bit_array_8c.html#a377a699a9d2478b8ad33ae7c2663d576">bitarray_flip</a> (<a class="el" href="struct_bit_array.html">BitArray</a> *const ba, size_t const bit_idx)</td></tr>
-<tr class="memdesc:a377a699a9d2478b8ad33ae7c2663d576"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flips the bit at the index <code>bit_idx</code>.  <a href="_bit_array_8c.html#a377a699a9d2478b8ad33ae7c2663d576">More...</a><br /></td></tr>
+<tr class="memitem:a377a699a9d2478b8ad33ae7c2663d576"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bit__array_8c.html#a377a699a9d2478b8ad33ae7c2663d576">bitarray_flip</a> (<a class="el" href="struct_bit_array.html">BitArray</a> *const ba, size_t const bit_idx)</td></tr>
+<tr class="memdesc:a377a699a9d2478b8ad33ae7c2663d576"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flips the bit at the index <code>bit_idx</code>.  <a href="bit__array_8c.html#a377a699a9d2478b8ad33ae7c2663d576">More...</a><br /></td></tr>
 <tr class="separator:a377a699a9d2478b8ad33ae7c2663d576"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -241,7 +243,7 @@ Functions</h2></td></tr>
 <p>Does not check whether <code>bit_idx</code> is a valid index in the bitarray. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ba</td><td>a pointer to the bitarray. </td></tr>
-    <tr><td class="paramname">bit_idx</td><td>the index of the bit to be checked. Must belong in the interval <code>[ 0, bitarray_length(ba) )</code>. </td></tr>
+    <tr><td class="paramname">bit_idx</td><td>the index of the bit to be checked. Must belong in the interval <code>[ 0, bitarray_length(ba) )</code>. If <code>BIT_ARRAY_ASSERTS</code> is set to <code>true</code>, checks if <code>bit_idx</code> is in this interval. </td></tr>
   </table>
   </dd>
 </dl>
@@ -292,7 +294,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Deallocates the memory used by the bitarray. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Any pointer to the bitarray becomes invalid. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ba</td><td>a pointer to the bitarray. </td></tr>
   </table>
@@ -357,7 +359,7 @@ Functions</h2></td></tr>
 <p>If the bit is set, it's unset. If the bit is unset, it's set. Does not check whether <code>bit_idx</code> is a valid index in the bitarray. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ba</td><td>a pointer to the bitarray. </td></tr>
-    <tr><td class="paramname">bit_idx</td><td>the index of the bit to be flipped. Must belong in the interval <code>[ 0, bitarray_length(ba) )</code>. </td></tr>
+    <tr><td class="paramname">bit_idx</td><td>the index of the bit to be flipped. Must belong in the interval <code>[ 0, bitarray_length(ba) )</code>. If <code>BIT_ARRAY_ASSERTS</code> is set to <code>true</code>, checks if <code>bit_idx</code> is in this interval. </td></tr>
   </table>
   </dd>
 </dl>
@@ -388,33 +390,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the length of the bitarray. </dd></dl>
-
-</div>
-</div>
-<a id="aea90ff60677eddc9a6cc5501ed830cca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea90ff60677eddc9a6cc5501ed830cca">&#9670;&nbsp;</a></span>bitarray_new()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_bit_array.html">BitArray</a>* bitarray_new </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>length</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Constructs an empty bitarray. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">length</td><td>the length, in bits, of the bitarray. <b>Must not be zero</b>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>a pointer to the constructed bitarray. If an error occurs allocating memory, <code>NULL</code> may be returned. </dd></dl>
 
 </div>
 </div>
@@ -502,7 +477,7 @@ Functions</h2></td></tr>
 <p>Does not check whether <code>bit_idx</code> is a valid index in the bitarray. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ba</td><td>a pointer to the bitarray. </td></tr>
-    <tr><td class="paramname">bit_idx</td><td>the index of the bit to be set. Must belong in the interval <code>[ 0, bitarray_length(ba) )</code>. </td></tr>
+    <tr><td class="paramname">bit_idx</td><td>the index of the bit to be set. Must belong in the interval <code>[ 0, bitarray_length(ba) )</code>. If <code>BIT_ARRAY_ASSERTS</code> is set to <code>true</code>, checks if <code>bit_idx</code> is in this interval. </td></tr>
   </table>
   </dd>
 </dl>
@@ -539,10 +514,37 @@ Functions</h2></td></tr>
 <p>Does not check whether <code>bit_idx</code> is a valid index in the bitarray. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ba</td><td>a pointer to the bitarray. </td></tr>
-    <tr><td class="paramname">bit_idx</td><td>the index of the bit to be unset. Must belong in the interval <code>[ 0, bitarray_length(ba) )</code>. </td></tr>
+    <tr><td class="paramname">bit_idx</td><td>the index of the bit to be unset. Must belong in the interval <code>[ 0, bitarray_length(ba) )</code>. If <code>BIT_ARRAY_ASSERTS</code> is set to <code>true</code>, checks if <code>bit_idx</code> is in this interval. </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a3ff6648b4ff73bda938d5b490f7a50b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ff6648b4ff73bda938d5b490f7a50b0">&#9670;&nbsp;</a></span>bitarray_with_capacity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_bit_array.html">BitArray</a>* bitarray_with_capacity </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>length</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a bitarray with all bits unset. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">length</td><td>the length, in bits, of the bitarray. <b>Must not be zero</b>. If <code>BIT_ARRAY_ASSERTS</code> is set to <code>true</code>, checks if <code>length &gt; 0</code>, and if the memory allocation was successful. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a pointer to the constructed bitarray. If an error occurs allocating memory, <code>NULL</code> may be returned. </dd></dl>
 
 </div>
 </div>

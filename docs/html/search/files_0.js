@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['bitarray_2ec_20',['BitArray.c',['../_bit_array_8c.html',1,'']]],
-  ['bitarray_2eh_21',['BitArray.h',['../_bit_array_8h.html',1,'']]]
+  ['bit_5farray_2ec_24',['bit_array.c',['../bit__array_8c.html',1,'']]],
+  ['bit_5farray_2eh_25',['bit_array.h',['../bit__array_8h.html',1,'']]]
 ];
