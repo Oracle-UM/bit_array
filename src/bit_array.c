@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static_assert(CHAR_BIT == 8, "Expected a byte to consist exaclty of 8 bits.");
+static_assert(CHAR_BIT == 8, "Expected a byte to consist exactly of 8 bits.");
 
 struct BitArray {
     size_t length_in_bits;
